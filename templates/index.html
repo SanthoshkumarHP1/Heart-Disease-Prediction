@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #00bcd4, #ff8a00);
+            color: #808;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure body takes up at least 100vh */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+        }
+        .container {
+            width: 60%;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #ff5722;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+        label {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #ff5722;
+            box-shadow: 0px 0px 10px rgba(255, 87, 34, 0.4);
+        }
+        button {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background-color: #ff3d00;
+            transform: scale(1.05);
+        }
+        .info-text {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        .prediction-result {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+        .result-positive {
+            background-color: #ff4444;
+            color: white;
+        }
+        .result-negative {
+            background-color: #4CAF50;
+            color: white;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 85%;
+                padding: 20px;
+            }
+            button {
+                font-size: 1rem;
+            }
+        }
+        /* Footer Styling */
+        .footer {
+            text-align: center;
+            font-size: 1rem;
+            margin-top: 40px;
+            padding: 20px 0;
+            background-color: #000;
+            color: #fff;
+        }
+        .footer a {
+            color: #ff5722;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Heart Disease Prediction</h1>
+        <!-- Add logo or image above the form -->
+        <img src="{{ url_for('static', filename='images.jpg') }}" alt="Logo" style="width: 150px; margin-bottom: 20px;">
+        <form method="POST" action="/">
+            <label>High Blood Pressure (HighBP):</label>
+            <input type="text" name="HighBP" value="{{ request.form['HighBP'] if request.form.get('HighBP') else '' }}" required>
+            <label>High Cholesterol (HighChol):</label>
+            <input type="text" name="HighChol" value="{{ request.form['HighChol'] if request.form.get('HighChol') else '' }}" required>
+            <label>Cholesterol Check (CholCheck):</label>
+            <input type="text" name="CholCheck" value="{{ request.form['CholCheck'] if request.form.get('CholCheck') else '' }}" required>
+            <label>Body Mass Index (BMI):</label>
+            <input type="text" name="BMI" value="{{ request.form['BMI'] if request.form.get('BMI') else '' }}" required>
+            <label>Smoker:</label>
+            <input type="text" name="Smoker" value="{{ request.form['Smoker'] if request.form.get('Smoker') else '' }}" required>
+            <label>Stroke:</label>
+            <input type="text" name="Stroke" value="{{ request.form['Stroke'] if request.form.get('Stroke') else '' }}" required>
+            <label>Diabetes:</label>
+            <input type="text" name="Diabetes" value="{{ request.form['Diabetes'] if request.form.get('Diabetes') else '' }}" required>
+            <label>Physical Activity (PhysActivity):</label>
+            <input type="text" name="PhysActivity" value="{{ request.form['PhysActivity'] if request.form.get('PhysActivity') else '' }}" required>
+            <label>Fruits:</label>
+            <input type="text" name="Fruits" value="{{ request.form['Fruits'] if request.form.get('Fruits') else '' }}" required>
+            <label>Vegetables (Veggies):</label>
+            <input type="text" name="Veggies" value="{{ request.form['Veggies'] if request.form.get('Veggies') else '' }}" required>
+            <label>Heavy Alcohol Consumption (HvyAlcoholConsump):</label>
+            <input type="text" name="HvyAlcoholConsump" value="{{ request.form['HvyAlcoholConsump'] if request.form.get('HvyAlcoholConsump') else '' }}" required>
+            <label>Any Healthcare:</label>
+            <input type="text" name="AnyHealthcare" value="{{ request.form['AnyHealthcare'] if request.form.get('AnyHealthcare') else '' }}" required>
+            <label>No Doctor Cost (NoDocbcCost):</label>
+            <input type="text" name="NoDocbcCost" value="{{ request.form['NoDocbcCost'] if request.form.get('NoDocbcCost') else '' }}" required>
+            <label>General Health (GenHlth):</label>
+            <input type="text" name="GenHlth" value="{{ request.form['GenHlth'] if request.form.get('GenHlth') else '' }}" required>
+            <label>Mental Health (MentHlth):</label>
+            <input type="text" name="MentHlth" value="{{ request.form['MentHlth'] if request.form.get('MentHlth') else '' }}" required>
+            <label>Physical Health (PhysHlth):</label>
+            <input type="text" name="PhysHlth" value="{{ request.form['PhysHlth'] if request.form.get('PhysHlth') else '' }}" required>
+            <label>Difficulty Walking (DiffWalk):</label>
+            <input type="text" name="DiffWalk" value="{{ request.form['DiffWalk'] if request.form.get('DiffWalk') else '' }}" required>
+            <label>Sex:</label>
+            <input type="text" name="Sex" value="{{ request.form['Sex'] if request.form.get('Sex') else '' }}" required>
+            <label>Age:</label>
+            <input type="text" name="Age" value="{{ request.form['Age'] if request.form.get('Age') else '' }}" required>
+            <label>Education:</label>
+            <input type="text" name="Education" value="{{ request.form['Education'] if request.form.get('Education') else '' }}" required>
+            <label>Income:</label>
+            <input type="text" name="Income" value="{{ request.form['Income'] if request.form.get('Income') else '' }}" required>
+            <button type="submit">Predict</button>
+        </form>
+        <!-- ✅ Prediction Result Remains Visible After Submission -->
+        {% if prediction %}
+            <div class="prediction-result {% if 'Detected' in prediction %}result-positive{% else %}result-negative{% endif %}">
+                Prediction Result: {{ prediction }}
+            </div>
+        {% endif %}
+        <p class="info-text">Fill in all fields to get the heart disease prediction result.</p>
+    </div>
+    <!-- Footer at the bottom -->
+    <div class="footer">
+        <p>Created by SANTHOSHKUMAR H P | <a href="https://github.com/SanthoshkumarHP1/Heart-Disease-Prediction" target="_blank">Learn more</a></p>
+    </div>
+</body>
+</html>
