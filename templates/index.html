@@ -17,9 +17,9 @@
             color: #808;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Ensure body takes up at least 100vh */
-            justify-content: center; /* Center content vertically */
-            align-items: center; /* Center content horizontally */
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
         }
         .container {
             width: 60%;
@@ -47,7 +47,7 @@
             font-size: 1.1rem;
             font-weight: bold;
         }
-        input[type="text"] {
+        select {
             padding: 10px;
             font-size: 1rem;
             border-radius: 5px;
@@ -55,7 +55,7 @@
             outline: none;
             transition: border-color 0.3s ease;
         }
-        input[type="text"]:focus {
+        select:focus {
             border-color: #ff5722;
             box-shadow: 0px 0px 10px rgba(255, 87, 34, 0.4);
         }
@@ -74,116 +74,105 @@
             background-color: #ff3d00;
             transform: scale(1.05);
         }
-        .info-text {
-            margin-top: 20px;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-        .prediction-result {
-            margin-top: 20px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            width: 100%;
-        }
-        .result-positive {
-            background-color: #ff4444;
-            color: white;
-        }
-        .result-negative {
-            background-color: #4CAF50;
-            color: white;
-        }
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                width: 85%;
-                padding: 20px;
-            }
-            button {
-                font-size: 1rem;
-            }
-        }
-        /* Footer Styling */
-        .footer {
-            text-align: center;
-            font-size: 1rem;
-            margin-top: 40px;
-            padding: 20px 0;
-            background-color: #000;
-            color: #fff;
-        }
-        .footer a {
-            color: #ff5722;
-            text-decoration: none;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Heart Disease Prediction</h1>
-        <!-- Add logo or image above the form -->
-        <img src="{{ url_for('static', filename='images.jpg') }}" alt="Logo" style="width: 150px; margin-bottom: 20px;">
         <form method="POST" action="/">
-            <label>High Blood Pressure (HighBP):</label>
-            <input type="text" name="HighBP" value="{{ request.form['HighBP'] if request.form.get('HighBP') else '' }}" required>
-            <label>High Cholesterol (HighChol):</label>
-            <input type="text" name="HighChol" value="{{ request.form['HighChol'] if request.form.get('HighChol') else '' }}" required>
-            <label>Cholesterol Check (CholCheck):</label>
-            <input type="text" name="CholCheck" value="{{ request.form['CholCheck'] if request.form.get('CholCheck') else '' }}" required>
-            <label>Body Mass Index (BMI):</label>
-            <input type="text" name="BMI" value="{{ request.form['BMI'] if request.form.get('BMI') else '' }}" required>
+            <label>High Blood Pressure:</label>
+            <select name="HighBP" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            
+            <label>High Cholesterol:</label>
+            <select name="HighChol" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            
+            <label>Cholesterol Check:</label>
+            <select name="CholCheck" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            
             <label>Smoker:</label>
-            <input type="text" name="Smoker" value="{{ request.form['Smoker'] if request.form.get('Smoker') else '' }}" required>
+            <select name="Smoker" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            
             <label>Stroke:</label>
-            <input type="text" name="Stroke" value="{{ request.form['Stroke'] if request.form.get('Stroke') else '' }}" required>
+            <select name="Stroke" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            
             <label>Diabetes:</label>
-            <input type="text" name="Diabetes" value="{{ request.form['Diabetes'] if request.form.get('Diabetes') else '' }}" required>
-            <label>Physical Activity (PhysActivity):</label>
-            <input type="text" name="PhysActivity" value="{{ request.form['PhysActivity'] if request.form.get('PhysActivity') else '' }}" required>
-            <label>Fruits:</label>
-            <input type="text" name="Fruits" value="{{ request.form['Fruits'] if request.form.get('Fruits') else '' }}" required>
-            <label>Vegetables (Veggies):</label>
-            <input type="text" name="Veggies" value="{{ request.form['Veggies'] if request.form.get('Veggies') else '' }}" required>
-            <label>Heavy Alcohol Consumption (HvyAlcoholConsump):</label>
-            <input type="text" name="HvyAlcoholConsump" value="{{ request.form['HvyAlcoholConsump'] if request.form.get('HvyAlcoholConsump') else '' }}" required>
-            <label>Any Healthcare:</label>
-            <input type="text" name="AnyHealthcare" value="{{ request.form['AnyHealthcare'] if request.form.get('AnyHealthcare') else '' }}" required>
-            <label>No Doctor Cost (NoDocbcCost):</label>
-            <input type="text" name="NoDocbcCost" value="{{ request.form['NoDocbcCost'] if request.form.get('NoDocbcCost') else '' }}" required>
-            <label>General Health (GenHlth):</label>
-            <input type="text" name="GenHlth" value="{{ request.form['GenHlth'] if request.form.get('GenHlth') else '' }}" required>
-            <label>Mental Health (MentHlth):</label>
-            <input type="text" name="MentHlth" value="{{ request.form['MentHlth'] if request.form.get('MentHlth') else '' }}" required>
-            <label>Physical Health (PhysHlth):</label>
-            <input type="text" name="PhysHlth" value="{{ request.form['PhysHlth'] if request.form.get('PhysHlth') else '' }}" required>
-            <label>Difficulty Walking (DiffWalk):</label>
-            <input type="text" name="DiffWalk" value="{{ request.form['DiffWalk'] if request.form.get('DiffWalk') else '' }}" required>
+            <select name="Diabetes" required>
+                <option value="">Select</option>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+            
+            <label>Physical Activity:</label>
+            <select name="PhysActivity" required>
+                <option value="">Select</option>
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+            </select>
+            
             <label>Sex:</label>
-            <input type="text" name="Sex" value="{{ request.form['Sex'] if request.form.get('Sex') else '' }}" required>
+            <select name="Sex" required>
+                <option value="">Select</option>
+                <option value="1">Male</option>
+                <option value="0">Female</option>
+            </select>
+            
             <label>Age:</label>
-            <input type="text" name="Age" value="{{ request.form['Age'] if request.form.get('Age') else '' }}" required>
+            <select name="Age" required>
+                <option value="">Select</option>
+                <option value="1">18-24</option>
+                <option value="2">25-34</option>
+                <option value="3">35-44</option>
+                <option value="4">45-54</option>
+                <option value="5">55-64</option>
+                <option value="6">65+</option>
+            </select>
+            
             <label>Education:</label>
-            <input type="text" name="Education" value="{{ request.form['Education'] if request.form.get('Education') else '' }}" required>
+            <select name="Education" required>
+                <option value="">Select</option>
+                <option value="1">Never attended school</option>
+                <option value="2">Elementary</option>
+                <option value="3">Some high school</option>
+                <option value="4">High school graduate</option>
+                <option value="5">Some college</option>
+                <option value="6">College graduate</option>
+            </select>
+            
             <label>Income:</label>
-            <input type="text" name="Income" value="{{ request.form['Income'] if request.form.get('Income') else '' }}" required>
+            <select name="Income" required>
+                <option value="">Select</option>
+                <option value="1">Less than $10,000</option>
+                <option value="2">$10,000 - $15,000</option>
+                <option value="3">$15,000 - $20,000</option>
+                <option value="4">$20,000 - $25,000</option>
+                <option value="5">$25,000 - $35,000</option>
+                <option value="6">$35,000 - $50,000</option>
+                <option value="7">$50,000 - $75,000</option>
+                <option value="8">More than $75,000</option>
+            </select>
+            
             <button type="submit">Predict</button>
         </form>
-        <!-- ✅ Prediction Result Remains Visible After Submission -->
-        {% if prediction %}
-            <div class="prediction-result {% if 'Detected' in prediction %}result-positive{% else %}result-negative{% endif %}">
-                Prediction Result: {{ prediction }}
-            </div>
-        {% endif %}
-        <p class="info-text">Fill in all fields to get the heart disease prediction result.</p>
-    </div>
-    <!-- Footer at the bottom -->
-    <div class="footer">
-        <p>Created by SANTHOSHKUMAR H P | <a href="https://github.com/SanthoshkumarHP1/Heart-Disease-Prediction" target="_blank">Learn more</a></p>
     </div>
 </body>
 </html>
