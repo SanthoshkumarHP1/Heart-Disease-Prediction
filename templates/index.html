@@ -17,9 +17,9 @@
             color: #808;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            justify-content: center;
-            align-items: center;
+            min-height: 100vh; /* Ensure body takes up at least 100vh */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
         }
         .container {
             width: 60%;
@@ -47,7 +47,7 @@
             font-size: 1.1rem;
             font-weight: bold;
         }
-        select {
+        input[type="text"] {
             padding: 10px;
             font-size: 1rem;
             border-radius: 5px;
@@ -55,7 +55,7 @@
             outline: none;
             transition: border-color 0.3s ease;
         }
-        select:focus {
+        input[type="text"]:focus {
             border-color: #ff5722;
             box-shadow: 0px 0px 10px rgba(255, 87, 34, 0.4);
         }
@@ -74,6 +74,53 @@
             background-color: #ff3d00;
             transform: scale(1.05);
         }
+        .info-text {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        .prediction-result {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+        .result-positive {
+            background-color: #ff4444;
+            color: white;
+        }
+        .result-negative {
+            background-color: #4CAF50;
+            color: white;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 85%;
+                padding: 20px;
+            }
+            button {
+                font-size: 1rem;
+            }
+        }
+        /* Footer Styling */
+        .footer {
+            text-align: center;
+            font-size: 1rem;
+            margin-top: 40px;
+            padding: 20px 0;
+            background-color: #000;
+            color: #fff;
+        }
+        .footer a {
+            color: #ff5722;
+            text-decoration: none;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -82,97 +129,141 @@
         <form method="POST" action="/">
             <label>High Blood Pressure:</label>
             <select name="HighBP" required>
-                <option value="">Select</option>
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="1" {% if HighBP == '1' %}selected{% endif %}>Yes</option>
+                <option value="0" {% if HighBP == '0' %}selected{% endif %}>No</option>
             </select>
             
             <label>High Cholesterol:</label>
             <select name="HighChol" required>
-                <option value="">Select</option>
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="1" {% if HighChol == '1' %}selected{% endif %}>Yes</option>
+                <option value="0" {% if HighChol == '0' %}selected{% endif %}>No</option>
             </select>
             
             <label>Cholesterol Check:</label>
             <select name="CholCheck" required>
-                <option value="">Select</option>
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="1" {% if CholCheck == '1' %}selected{% endif %}>Yes</option>
+                <option value="0" {% if CholCheck == '0' %}selected{% endif %}>No</option>
             </select>
+            
+            <label>Body Mass Index (BMI):</label>
+            <input type="number" name="BMI" step="0.1" value="{{ BMI }}" required>
             
             <label>Smoker:</label>
             <select name="Smoker" required>
-                <option value="">Select</option>
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="1" {% if Smoker == '1' %}selected{% endif %}>Yes</option>
+                <option value="0" {% if Smoker == '0' %}selected{% endif %}>No</option>
             </select>
             
             <label>Stroke:</label>
             <select name="Stroke" required>
-                <option value="">Select</option>
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="1" {% if Stroke == '1' %}selected{% endif %}>Yes</option>
+                <option value="0" {% if Stroke == '0' %}selected{% endif %}>No</option>
             </select>
             
             <label>Diabetes:</label>
             <select name="Diabetes" required>
-                <option value="">Select</option>
-                <option value="0">No</option>
-                <option value="1">Yes</option>
+                <option value="1" {% if Diabetes == '1' %}selected{% endif %}>Yes</option>
+                <option value="0" {% if Diabetes == '0' %}selected{% endif %}>No</option>
             </select>
             
-            <label>Physical Activity:</label>
-            <select name="PhysActivity" required>
-                <option value="">Select</option>
-                <option value="1">Active</option>
-                <option value="0">Inactive</option>
+            <label for="PhysActivity">Physical Activity (PhysActivity):</label>
+            <select name="PhysActivity" id="PhysActivity" required>
+                <option value="1" {% if PhysActivity == '1' %}selected{% endif %}>Active</option>
+                <option value="0" {% if PhysActivity == '0' %}selected{% endif %}>Inactive</option>
+            </select>
+            
+            <label>Regular Fruits:</label>
+            <select name="Fruits" required>
+                <option value="1" {% if Fruits == '1' %}selected{% endif %}>Yes</option>
+                <option value="0" {% if Fruits == '0' %}selected{% endif %}>No</option>
+            </select>
+            
+            <label>Regular Vegetables:</label>
+            <select name="Veggies" required>
+                <option value="1" {% if Veggies == '1' %}selected{% endif %}>Yes</option>
+                <option value="0" {% if Veggies == '0' %}selected{% endif %}>No</option>
+            </select>
+            
+            <label>Heavy Alcohol Consumption:</label>
+            <select name="HvyAlcoholConsump" required>
+                <option value="1" {% if HvyAlcoholConsump == '1' %}selected{% endif %}>Yes</option>
+                <option value="0" {% if HvyAlcoholConsump == '0' %}selected{% endif %}>No</option>
+            </select>
+            
+            <label>Any Healthcare Issue:</label>
+            <select name="AnyHealthcare" required>
+                <option value="1" {% if AnyHealthcare == '1' %}selected{% endif %}>Yes</option>
+                <option value="0" {% if AnyHealthcare == '0' %}selected{% endif %}>No</option>
+            </select>
+            
+            <label for="NoDocbcCost">No Doctor Cost (NoDocbcCost):</label>
+            <select name="NoDocbcCost" id="NoDocbcCost" required>
+                <option value="1" {% if NoDocbcCost == '1' %}selected{% endif %}>Could not afford</option>
+                <option value="0" {% if NoDocbcCost == '0' %}selected{% endif %}>Had no cost issues</option>
+            </select>
+            
+            <label>General Health:</label>
+            <select name="GenHlth" required>
+                <option value="1" {% if GenHlth == '1' %}selected{% endif %}>Excellent</option>
+                <option value="2" {% if GenHlth == '2' %}selected{% endif %}>Very Good</option>
+                <option value="3" {% if GenHlth == '3' %}selected{% endif %}>Good</option>
+                <option value="4" {% if GenHlth == '4' %}selected{% endif %}>Fair</option>
+                <option value="5" {% if GenHlth == '5' %}selected{% endif %}>Poor</option>
+            </select>
+            
+            <label>Mental Health (Days Mental Health Not Good in Last 30 Days):</label>
+            <input type="number" name="MentHlth" min="0" max="30" value="{{ MentHlth }}" required>
+            
+            <label>Physical Health (Days Physical Health Not Good in Last 30 Days):</label>
+            <input type="number" name="PhysHlth" min="0" max="30" value="{{ PhysHlth }}" required>
+            
+            <label>Difficulty Walking:</label>
+            <select name="DiffWalk" required>
+                <option value="1" {% if DiffWalk == '1' %}selected{% endif %}>Yes</option>
+                <option value="0" {% if DiffWalk == '0' %}selected{% endif %}>No</option>
             </select>
             
             <label>Sex:</label>
             <select name="Sex" required>
-                <option value="">Select</option>
-                <option value="1">Male</option>
-                <option value="0">Female</option>
+                <option value="1" {% if Sex == '1' %}selected{% endif %}>Male</option>
+                <option value="0" {% if Sex == '0' %}selected{% endif %}>Female</option>
             </select>
             
             <label>Age:</label>
-            <select name="Age" required>
-                <option value="">Select</option>
-                <option value="1">18-24</option>
-                <option value="2">25-34</option>
-                <option value="3">35-44</option>
-                <option value="4">45-54</option>
-                <option value="5">55-64</option>
-                <option value="6">65+</option>
-            </select>
+            <input type="number" name="Age" min="18" max="120" value="{{ Age }}" required>
             
-            <label>Education:</label>
+            <label>Education Level:</label>
             <select name="Education" required>
-                <option value="">Select</option>
-                <option value="1">Never attended school</option>
-                <option value="2">Elementary</option>
-                <option value="3">Some high school</option>
-                <option value="4">High school graduate</option>
-                <option value="5">Some college</option>
-                <option value="6">College graduate</option>
+                <option value="1" {% if Education == '1' %}selected{% endif %}>No High School</option>
+                <option value="2" {% if Education == '2' %}selected{% endif %}>High School Graduate</option>
+                <option value="3" {% if Education == '3' %}selected{% endif %}>Some College</option>
+                <option value="4" {% if Education == '4' %}selected{% endif %}>College Graduate</option>
             </select>
             
-            <label>Income:</label>
+            <label>Income Level:</label>
             <select name="Income" required>
-                <option value="">Select</option>
-                <option value="1">Less than $10,000</option>
-                <option value="2">$10,000 - $15,000</option>
-                <option value="3">$15,000 - $20,000</option>
-                <option value="4">$20,000 - $25,000</option>
-                <option value="5">$25,000 - $35,000</option>
-                <option value="6">$35,000 - $50,000</option>
-                <option value="7">$50,000 - $75,000</option>
-                <option value="8">More than $75,000</option>
+                <option value="1" {% if Income == '1' %}selected{% endif %}>Less than $10,000</option>
+                <option value="2" {% if Income == '2' %}selected{% endif %}>$10,000 - $20,000</option>
+                <option value="3" {% if Income == '3' %}selected{% endif %}>$20,000 - $35,000</option>
+                <option value="4" {% if Income == '4' %}selected{% endif %}>$35,000 - $50,000</option>
+                <option value="5" {% if Income == '5' %}selected{% endif %}>$50,000 - $75,000</option>
+                <option value="6" {% if Income == '6' %}selected{% endif %}>More than $75,000</option>
             </select>
             
             <button type="submit">Predict</button>
         </form>
+
+        <!-- ✅ Prediction Result Remains Visible After Submission -->
+        {% if prediction %}
+            <div class="prediction-result {% if 'Detected' in prediction %}result-positive{% else %}result-negative{% endif %}">
+                Prediction Result: {{ prediction }}
+            </div>
+        {% endif %}
+        <p class="info-text">Fill in all fields to get the heart disease prediction result.</p>
+    </div>
+    <!-- Footer at the bottom -->
+    <div class="footer">
+        <p>Created by SANTHOSHKUMAR H P | <a href="https://github.com/SanthoshkumarHP1/Heart-Disease-Prediction" target="_blank">Learn more</a></p>
     </div>
 </body>
 </html>
